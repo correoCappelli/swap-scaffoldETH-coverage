@@ -24,7 +24,7 @@ const ERC20_ABI = [
 
 export default function Home() {
   const { address: userAddress } = useAccount();
-  const [deadlineMs, setDeadlineMs] = useState(Date.now() + 100 * 60 * 1000);
+  const [deadlineMs, setDeadlineMs] = useState<number | null>(null);
 
   const { data: balanceA } = useBalance({ address: userAddress, token: TOKEN_A });
   const { data: balanceB } = useBalance({ address: userAddress, token: TOKEN_B });
@@ -44,10 +44,13 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const refreshDeadline = setInterval(() => {
+    const updateDeadline = () => {
       setDeadlineMs(Date.now() + 100 * 60 * 1000);
-    }, 30000);
-    return () => clearInterval(refreshDeadline);
+    };
+
+    updateDeadline(); // initial set
+    const interval = setInterval(updateDeadline, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -65,9 +68,11 @@ export default function Home() {
           💼 Connected Wallet: <Address address={userAddress} />
         </div>
 
-        <div className="text-white text-lg font-bold">
-          ⏰ Recommended Deadline (ms): <span className="font-mono">{deadlineMs}</span>
-        </div>
+        {deadlineMs !== null && (
+          <div className="text-white text-lg font-bold">
+            ⏰ Recommended Deadline (ms): <span className="font-mono">{deadlineMs}</span>
+          </div>
+        )}
 
         <div className="text-white text-lg font-bold">
           🪙 TokenA Balance: <span className="font-mono">{balanceA?.formatted ?? "..."}</span>
