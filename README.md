@@ -9,7 +9,6 @@
 
 ⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
 
-[![Coverage](https://correoCappelli.github.io/swap-scaffoldETH-coverage/badges/coverage.svg)](https://github.com/correoCappelli/swap-scaffoldETH-coverage/actions)
 
 
 - ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
